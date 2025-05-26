@@ -1,0 +1,210 @@
+
+
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Women{% endblock %}
+
+
+{% block content %}
+		<div class="breadcrumbs">
+			<div class="container">
+				<div class="row">
+					<div class="col">
+						<p class="bread"><span><a href="{% url 'index' %}">Home</a></span> / <span>Women</span></p>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		
+
+		<div class="breadcrumbs-two">
+			<div class="container">
+				<div class="row">
+					<div class="col">
+						<div>
+							<h2>Women's</h2>
+						</div>
+						
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="colorlib-product">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-3 col-xl-3">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="side border mb-1">
+                <h3>Brand</h3>
+                <form method="get" id="filter-form">
+                    <ul>
+                        {% for value, name in brand_choices %}
+                        <li>
+                            <input type="radio" name="brand" id="brand-{{ value }}" 
+                                   value="{{ value }}" {% if current_brand == value %}checked{% endif %}>
+                            <label for="brand-{{ value }}">{{ name }}</label>
+                        </li>
+                        {% endfor %}
+                        <li>
+                            <input type="radio" name="brand" id="brand-all" value="" 
+                                   {% if not current_brand %}checked{% endif %}>
+                            <label for="brand-all">All Brands</label>
+                        </li>
+                    </ul>
+            </div>
+        </div>
+        <div class="col-sm-12">
+            <div class="side border mb-1">
+                <h3>Size/Width</h3>
+                <div class="block-26 mb-2">
+                    <h4>Size</h4>
+                    <input type="text" name="size" class="form-control" 
+                           placeholder="Enter size" value="{{ current_size|default:'' }}">
+                </div>
+                <div class="block-26">
+                    <h4>Width</h4>
+                    <select name="width" class="form-control">
+                        <option value="">All Widths</option>
+                        <option value="S" {% if current_width == 'S' %}selected{% endif %}>Standard</option>
+                        <option value="W" {% if current_width == 'W' %}selected{% endif %}>Wide</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-12">
+            <div class="side border mb-1">
+                <h3>Style</h3>
+                <select name="style" class="form-control">
+                    <option value="">All Styles</option>
+                    <option value="SLIP" {% if current_style == 'SLIP' %}selected{% endif %}>Slip Ons</option>
+                    <option value="BOOT" {% if current_style == 'BOOT' %}selected{% endif %}>Boots</option>
+                    <option value="SAND" {% if current_style == 'SAND' %}selected{% endif %}>Sandals</option>
+                    <option value="LACE" {% if current_style == 'LACE' %}selected{% endif %}>Lace Ups</option>
+                    <option value="OXFO" {% if current_style == 'OXFO' %}selected{% endif %}>Oxfords</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-sm-12">
+            <div class="side border mb-1">
+                <h3>Colors</h3>
+                <input type="text" name="color" class="form-control" 
+                       placeholder="Enter color" value="{{ current_color|default:'' }}">
+            </div>
+        </div>
+        <div class="col-sm-12">
+            <!-- Brand Filter -->
+<div class="side border mb-1">
+    <h3>Brand</h3>
+    <select name="brand" class="form-control">
+        <option value="">All Brands</option>
+        {% for value, name in brand_choices %}
+        <option value="{{ value }}" {% if current_brand == value %}selected{% endif %}>
+            {{ name }}
+        </option>
+        {% endfor %}
+    </select>
+</div>
+
+<!-- Material Filter -->
+<div class="side border mb-1">
+    <h3>Material</h3>
+    <select name="material" class="form-control">
+        <option value="">All Materials</option>
+        {% for value, name in material_choices %}
+        <option value="{{ value }}" {% if current_material == value %}selected{% endif %}>
+            {{ name }}
+        </option>
+        {% endfor %}
+    </select>
+</div>
+        </div>
+        <div class="col-sm-12">
+            <div class="side border mb-1">
+                <h3>Technologies</h3>
+                <input type="text" name="technology" class="form-control" 
+                       placeholder="Enter technology" value="{{ current_technology|default:'' }}">
+            </div>
+        </div>
+        <div class="col-sm-12">
+            <button type="submit" class="btn btn-primary btn-block">Apply Filters</button>
+            <a href="{% url 'women' %}" class="btn btn-secondary btn-block">Reset Filters</a>
+        </div>
+        </form>
+    </div>
+</div>
+					<div class="col-lg-9 col-xl-9">
+    <form method="post" action="{% url 'add_to_cart' %}" id="cart-form">
+    {% csrf_token %}
+    <div class="row row-pb-md" id="product-container">
+        {% for product in products %}
+        <div class="col-lg-3 mb-4 text-censter">
+            <div class="product-entry border product-card" data-product-id="{{ product.id }}">
+    <!-- Add this info button -->
+<!-- Correct way: add product_id as a query param -->
+<a href="{% url 'product_detail' %}?product_id={{ product.id }}">Info</a>
+
+
+    
+    <div class="product-selector">
+        <label for="product-{{ product.id }}">
+            <div class="prod-img">
+                <img src="{{ product.image.url }}" class="img-fluid" alt="{{ product.name }}">
+            </div>
+            <div class="desc">
+                <h2>{{ product.name }}</h2>
+                <span class="price">${{ product.price }}</span>
+            </div>
+        </label>
+    </div>
+</div>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="row">
+        <div class="col-12 text-right">
+            <button type="submit" class="btn btn-primary" id="add-to-cart-btn">
+                <i class="icon-shopping-cart"></i> Add to Cart (<span id="selected-count">0</span>)
+            </button>
+        </div>
+    </div>
+</form>
+<!-- Add to Cart Button -->
+
+    <!-- Pagination -->
+
+				</div>
+			</div>
+		</div>
+
+		<div class="colorlib-partner">
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-8 offset-sm-2 text-center colorlib-heading colorlib-heading-sm">
+						<h2>Trusted Partners</h2>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col partner-col text-center">
+						<img src="images/brand-1.jpg" class="img-fluid" alt="Free html4 bootstrap 4 template">
+					</div>
+					<div class="col partner-col text-center">
+						<img src="images/brand-2.jpg" class="img-fluid" alt="Free html4 bootstrap 4 template">
+					</div>
+					<div class="col partner-col text-center">
+						<img src="images/brand-3.jpg" class="img-fluid" alt="Free html4 bootstrap 4 template">
+					</div>
+					<div class="col partner-col text-center">
+						<img src="images/brand-4.jpg" class="img-fluid" alt="Free html4 bootstrap 4 template">
+					</div>
+					<div class="col partner-col text-center">
+						<img src="images/brand-5.jpg" class="img-fluid" alt="Free html4 bootstrap 4 template">
+					</div>
+				</div>
+			</div>
+		</div>
+
+				{% endblock %}

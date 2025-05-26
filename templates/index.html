@@ -1,0 +1,311 @@
+
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Home{% endblock %}
+
+
+{% block content %}
+		<aside id="colorlib-hero">
+			<div class="flexslider">
+				<ul class="slides">
+			   	<li style="background-image: url(/static/images/img_bg_1.jpg);">
+			   		<div class="overlay"></div>
+			   		<div class="container-fluid">
+			   			<div class="row">
+
+
+							
+				   			<div class="col-sm-6 offset-sm-3 text-center slider-text">
+				   				<div class="slider-text-inner">
+				   					<div class="desc">
+					   					<h1 class="head-1">Men's</h1>
+					   					<h2 class="head-2">Shoes</h2>
+					   					<h2 class="head-3">Collection</h2>
+					   					<p class="category"><span>New trending shoes</span></p>
+					   					<p><a href="#" class="btn btn-primary">Shop Collection</a></p>
+				   					</div>
+				   				</div>
+				   			</div>
+				   		</div>
+			   		</div>
+			   	</li>
+			   	<li style="background-image: url(/static/images/img_bg_2.jpg);">
+			   		<div class="overlay"></div>
+			   		<div class="container-fluid">
+			   			<div class="row">
+				   			<div class="col-sm-6 offset-sm-3 text-center slider-text">
+				   				<div class="slider-text-inner">
+				   					<div class="desc">
+					   					<h1 class="head-1">Huge</h1>
+					   					<h2 class="head-2">Sale</h2>
+					   					<h2 class="head-3"><strong class="font-weight-bold">50%</strong> Off</h2>
+					   					<p class="category"><span>Big sale sandals</span></p>
+					   					<p><a href="#" class="btn btn-primary">Shop Collection</a></p>
+				   					</div>
+				   				</div>
+				   			</div>
+				   		</div>
+			   		</div>
+			   	</li>
+			   	<li style="background-image: url(/static/images/img_bg_3.jpg);">
+			   		<div class="overlay"></div>
+			   		<div class="container-fluid">
+			   			<div class="row">
+				   			<div class="col-sm-6 offset-sm-3 text-center slider-text">
+				   				<div class="slider-text-inner">
+				   					<div class="desc">
+					   					<h1 class="head-1">New</h1>
+					   					<h2 class="head-2">Arrival</h2>
+					   					<h2 class="head-3">up to <strong class="font-weight-bold">30%</strong> off</h2>
+					   					<p class="category"><span>New stylish shoes for men</span></p>
+					   					<p><a href="#" class="btn btn-primary">Shop Collection</a></p>
+				   					</div>
+				   				</div>
+				   			</div>
+				   		</div>
+			   		</div>
+			   	</li>
+			  	</ul>
+		  	</div>
+		</aside>
+		<div class="colorlib-intro">
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-12 text-center">
+						<h2 class="intro">It started with a simple idea: Create quality, well-designed products that I wanted myself.</h2>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="colorlib-product">
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-sm-6 text-center">
+						<div class="featured">
+							<a href="{% url 'men' %}" class="featured-img" style="background-image: url(/static/images/men.jpg);"></a>
+							<div class="desc">
+								<h2><a href="#">Shop Men's Collection</a></h2>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-6 text-center">
+						<div class="featured">
+							<a href="{% url 'women' %}" class="featured-img" style="background-image: url(/static/images/women.jpg);"></a>
+							<div class="desc">
+								<h2><a href="#">Shop Women's Collection</a></h2>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+<!-- Menu -->
+  <div class="menu text-center" style="margin-top: 20px;">
+    <p class="menu-bar">
+      <a href="#" class="menu-link active" data-section="best">Best Sellers</a>
+      <a href="#" class="menu-link" data-section="new">New Arrivals</a>
+      <!-- <a href="#" class="menu-link" data-section="wide">Extended Widths</a>
+      <a href="#" class="menu-link" data-section="sale">Sale</a> -->
+    </p>
+  </div>
+
+  <!-- Best Sellers Section -->
+  <div id="best" class="product-section">
+    <div class="colorlib-product">
+      <div class="container">
+        <div class="row">
+          <div class="col-sm-8 offset-sm-2 text-center colorlib-heading">
+            <h2>Best Sellers</h2>
+            <p>Our most popular shoes based on customer purchases</p>
+          </div>
+        </div>
+
+      
+    <form method="post" action="{% url 'add_to_cart' %}" id="cart-form">
+        {% csrf_token %}
+        <div class="row row-pb-md" id="product-container">
+            {% for item in best_sellers %}
+            <div class="col-md-3 col-sm-6 mb-4 text-center">
+                <div class="product-entry border product-card" data-product-id="{{ item.product_id }}">
+                  <input type="checkbox" name="selected_products" value="{{ item.product_id }}" style="display:none;">
+
+                    
+                    <!-- Info button linking to product detail -->
+                    <a href="{% url 'product_detail' %}?product_id={{ item.product_id }}" class="btn btn-info mb-2">Info</a>
+                    
+                    <div class="product-selector">
+                        <label for="product-{{ item.product_id }}">
+                            <div class="prod-img">
+        <img src="/products/{{ item.product_image_url|cut:'products/' }}" class="img-fluid" alt="{{ item.product_name }}">
+                            </div>
+                            <div class="desc">
+                                <h2>{{ item.product_name }}</h2>
+                                <span class="price">${{ item.product_price }}</span>
+            <p class="badge badge-success" style=" top: 10px; left: 10px; animation: flash 1s infinite; font-size: medium;">Purchased {{ item.total_purchases }} time(s)</p>
+
+                            </div>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <p>No best sellers available at the moment.</p>
+            {% endfor %}
+        </div>
+        
+        <!-- Add to Cart Button (outside the for loop) -->
+        <div class="row">
+            <div class="col-12 text-right">
+                <button type="submit" class="btn btn-primary" id="add-to-cart-btn">
+                    <i class="icon-shopping-cart"></i> Add to Cart (<span id="selected-count">0</span>)
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+
+          <!-- Add more products similarly -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- New Arrivals Section -->
+  <div id="new" class="product-section2" style="display:none;">
+    <div class="colorlib-product">
+      <div class="container">
+        <div class="row">
+          <div class="col-sm-8 offset-sm-2 text-center colorlib-heading">
+            <h2>New Arrivals</h2>
+            <p>Latest shoes fresh off the press</p>
+          </div>
+        </div>
+
+         <form method="post" action="{% url 'add_to_cart' %}" id="cart-form2">
+                {% csrf_token %}
+                <div class="row row-pb-md" id="product-container2">
+                    {% for item in new_arrivals %}
+                    <div class="col-md-3 col-sm-6 mb-4 text-center">
+                        <div class="product-entry border product-card" data-product-id="{{ item.id }}">
+
+                          <input type="checkbox" name="selected_products" value="{{ item.id }}" style="display:none;">
+
+
+                            <!-- Info button linking to product detail -->
+                            <a href="{% url 'product_detail' %}?product_id={{ item.id }}" class="btn btn-info mb-2">Info</a>
+
+                            <div class="product-selector">
+                                <label for="new-arrival-{{ item.id }}">
+                                      <input type="checkbox" id="new-arrival-{{ item.id }}" name="selected_products" value="{{ item.id }}" style="display:none;">
+
+                                    <div class="prod-img">
+                                        <img src="/products/{{ item.product_image_url|cut:'products/' }}" class="img-fluid" alt="{{ item.name }}">
+                                        <!-- Just Launched flashing label -->
+                                    </div>
+                                    <div class="desc">
+                                        <h2>{{ item.name }}</h2>
+                                        <span class="price">${{ item.price }}</span>
+                                        <p>New Arrival</p>
+                                 <p class="badge badge-danger" style=" top: 10px; left: 10px; animation: flash 1s infinite; font-size: medium;">Just Launched!</p>
+
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <p>No new arrivals available at the moment.</p>
+                    {% endfor %}
+                </div>
+
+                
+                <!-- Add to Cart Button (outside the for loop) -->
+               <div class="row">
+            <div class="col-12 text-right">
+                <button type="submit" class="btn btn-primary" id="add-to-cart-btn2">
+                    <i class="icon-shopping-cart"></i> Add to Cart (<span id="selected-count2">0</span>)
+                </button>
+            </div>
+            </div>
+            </form>
+</div>
+      </div>
+    </div>
+  </div>
+</div>
+  <!-- Extended Widths Section -->
+  <div id="wide" class="product-section" style="display:none;">
+    <div class="colorlib-product">
+      <div class="container">
+        <div class="row">
+          <div class="col-sm-8 offset-sm-2 text-center colorlib-heading">
+            <h2>Extended Widths</h2>
+            <p>Shoes with wider fit for extra comfort</p>
+          </div>
+        </div>
+
+       
+
+          <!-- More wide products -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sale Section -->
+  <div id="sale" class="product-section" style="display:none;">
+    <div class="colorlib-product">
+      <div class="container">
+        <div class="row">
+          <div class="col-sm-8 offset-sm-2 text-center colorlib-heading">
+            <h2>Sale</h2>
+            <p>Grab these shoes at discounted prices</p>
+          </div>
+        </div>
+
+        
+          <!-- More sale products -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+<div class="row">
+					<div class="col-md-12 text-center">
+						<p><a href="#" class="btn btn-primary btn-lg">Shop All Products</a></p>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="colorlib-partner">
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-8 offset-sm-2 text-center colorlib-heading colorlib-heading-sm">
+						<h2>Trusted Partners</h2>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col partner-col text-center">
+						<img src="/static/images/brand-1.jpg" class="img-fluid" alt="Free html4 bootstrap 4 template">
+					</div>
+					<div class="col partner-col text-center">
+						<img src="/static/images/brand-2.jpg" class="img-fluid" alt="Free html4 bootstrap 4 template">
+					</div>
+					<div class="col partner-col text-center">
+						<img src="/static/images/brand-3.jpg" class="img-fluid" alt="Free html4 bootstrap 4 template">
+					</div>
+					<div class="col partner-col text-center">
+						<img src="/static/images/brand-4.jpg" class="img-fluid" alt="Free html4 bootstrap 4 template">
+					</div>
+					<div class="col partner-col text-center">
+						<img src="/static/images/brand-5.jpg" class="img-fluid" alt="Free html4 bootstrap 4 template">
+					</div>
+				</div>
+			</div>
+		</div>
+
+		{% endblock %}
+

@@ -1,0 +1,199 @@
+
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Product Details{% endblock %}
+
+
+{% block content %}
+
+		<div class="breadcrumbs">
+			<div class="container">
+				<div class="row">
+					<div class="col">
+						<p class="bread"><span><a href="{% url 'index' %}">Home</a></span> / <span>Product Details</span></p>
+					</div>
+				</div>
+			</div>
+		</div>
+
+        
+
+
+		<div class="colorlib-product">
+			<div class="container">
+				<div class="row row-pb-lg product-detail-wrap">
+					<div class="col-sm-8">
+						
+    <!-- Always show at least the main image or a placeholder -->
+    <div class="item">
+        <div class="product-entry border">
+            <div class="prod-img">
+                {% if product.image %}
+                    <img src="{{ product.image.url }}" class="img-fluid" alt="{{ product.name }}">
+                {% else %}
+                    <img src="{% static 'images/placeholder.jpg' %}" class="img-fluid" alt="No image available">
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    
+  
+
+					</div>
+					<div class="col-sm-4">
+						<div class="product-desc">
+    <h3>{{ product.name }}</h3>
+    <p class="price">
+        <span>${{ product.price }}</span> 
+        <span class="rate">
+            {% for i in "12345" %}
+                {% if forloop.counter <= product.details.average_rating %}
+                    <i class="icon-star-full"></i>
+                {% elif forloop.counter|add:"-0.5" <= product.details.average_rating %}
+                    <i class="icon-star-half"></i>
+                {% else %}
+                    <i class="icon-star-empty"></i>
+                {% endif %}
+            {% endfor %}
+            ({{ product.details.review_count }} Rating{{ product.details.review_count|pluralize }})
+        </span>
+    </p>
+    <p>{{ product.details.short_description }}</p>
+							<div class="size-wrap">
+        <div class="block-26 mb-2">
+            <h4>Size</h4>
+            <ul>
+                {% for size in sizes %}
+                <li><a href="#">{{ size }}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+				            <div class="block-26 mb-4">
+            <h4>Width</h4>
+            <ul>
+                {% for key, value in widths.items %}
+                <li><a href="#">{{ value }}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+                    
+                  	<div class="row">
+	                  	<div class="col-sm-12 text-center">
+<form action="{% url 'add_to_cart' %}" method="POST">
+    {% csrf_token %}
+    <input type="hidden" name="product_ids" value="{{ product.id }}">
+    <button type="submit" class="btn btn-primary btn-addtocart">
+        <i class="icon-shopping-cart"></i> Add to Cart
+    </button>
+</form>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-sm-12">
+						<div class="row">
+							<div class="col-md-12 pills">
+								<div class="bd-example bd-example-tabs">
+								  <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+
+								    <li class="nav-item">
+								      <a class="nav-link active" id="pills-description-tab" data-toggle="pill" href="#pills-description" role="tab" aria-controls="pills-description" aria-expanded="true">Description</a>
+								    </li>
+								    <li class="nav-item">
+								      <a class="nav-link" id="pills-manufacturer-tab" data-toggle="pill" href="#pills-manufacturer" role="tab" aria-controls="pills-manufacturer" aria-expanded="true">Manufacturer</a>
+								    </li>
+								    <li class="nav-item">
+								      <a class="nav-link" id="pills-review-tab" data-toggle="pill" href="#pills-review" role="tab" aria-controls="pills-review" aria-expanded="true">Review</a>
+								    </li>
+								  </ul>
+
+								  <div class="tab-content" id="pills-tabContent">
+        <div class="tab-pane border fade show active" id="pills-description" role="tabpanel">
+            <p>{{ product.details.full_description }}</p>
+            {% if product.details.features %}
+            <ul>
+                {% for feature in product.details.get_features_list %}
+                <li>{{ feature }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+        </div>
+
+								    <div class="tab-pane border fade" id="pills-manufacturer" role="tabpanel">
+            <p>{{ product.details.manufacturer_info }}</p>
+        </div>
+
+								     <div class="tab-pane border fade" id="pills-review" role="tabpanel">
+            <!-- Reviews would go here -->
+        </div>
+								    </div>
+								  </div>
+								</div>
+				         </div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+<!-- Related Products Section -->
+<div class="colorlib-product">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-8 offset-sm-2 text-center colorlib-heading">
+                <h2>You May Also Like</h2>
+            </div>
+        </div>
+         <form method="post" action="{% url 'add_to_cart' %}" id="cart-form">
+        {% csrf_token %}
+        <div class="row row-pb-md" id="product-container">
+            {% for related in related_products %}
+            <div class="col-md-3 col-sm-6 text-center">
+                <div class="product-entry border product-card" data-product-id="{{ related.id }}">
+                     <a href="{% url 'product_detail' %}?product_id={{ related.id }}" class="btn btn-info mb-2">Info</a>
+                    
+                    <div class="product-selector">
+                        <label for="product-{{ related.id }}">
+                    <div class="prod-img">
+                        <a href="{% url 'product_detail' %}?product_id={{ related.id }}">
+                            <img src="{{ related.image.url }}" class="img-fluid" alt="{{ related.name }}">
+                        </a>
+                    </div>
+                    <div class="desc">
+                        <h2><a href="{% url 'product_detail' %}?product_id={{ related.id }}">{{ related.name }}</a></h2>
+                        <span class="price">${{ related.price }}</span>
+                        <div class="star-rating">
+                            {% with ''|center:5 as range %}
+                            {% for _ in range %}
+                                {% if forloop.counter <= related.details.average_rating|default:0 %}
+                                    <i class="icon-star-full"></i>
+                                {% else %}
+                                    <i class="icon-star-empty"></i>
+                                {% endif %}
+                            {% endfor %}
+                            {% endwith %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+         <div class="row">
+            <div class="col-12 text-right">
+                <button type="submit" class="btn btn-primary" id="add-to-cart-btn">
+                    <i class="icon-shopping-cart"></i> Add to Cart (<span id="selected-count">0</span>)
+                </button>
+            </div>
+        </div>
+    </form>
+    </div>
+</div>
+<!-- End Related Products Section -->
+
+				{% endblock %}
