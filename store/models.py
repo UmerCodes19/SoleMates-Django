@@ -8,6 +8,8 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django.core.validators import MinValueValidator, MaxValueValidator
 
+from shoestore import settings
+
 class User(AbstractUser):
     is_customer = models.BooleanField(default=True)
     phone = models.CharField(max_length=20, blank=True)
@@ -163,16 +165,17 @@ class ProductDetails(models.Model):
 
 
 class Customer(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    phone = models.CharField(max_length=20)
-    address = models.TextField()
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    phone = models.CharField(max_length=20, null=True, blank=True)
+    address = models.CharField(max_length=255, null=True, blank=True)
+
 
     def __str__(self):
         return self.user.username
 
 
 class BillingDetails(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     country = models.CharField(max_length=100)
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
@@ -191,7 +194,7 @@ class BillingDetails(models.Model):
 class Order(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.SET_NULL, null=True)
     date_ordered = models.DateTimeField(auto_now_add=True)
-    complete = models.BooleanField(default=False)
+    complete = models.BooleanField(default=0)
     transaction_id = models.CharField(max_length=100, null=True)
     total = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     billing_details = models.ForeignKey(BillingDetails, on_delete=models.CASCADE)
@@ -347,18 +350,88 @@ class NewArrival(models.Model):
 # triggers related
       
 class ProductAudit(models.Model):
-    action_time = models.DateTimeField(auto_now_add=True)
+    action_time = models.DateTimeField()
     action_type = models.CharField(max_length=10)
     product_id = models.IntegerField()
-    product_name = models.CharField(max_length=255)
-    customer_id = models.IntegerField(null=True, blank=True)
-    customer_name = models.CharField(max_length=255, null=True, blank=True)
-    quantity = models.IntegerField(null=True, blank=True)
-    amount_paid = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
-    stock_before = models.IntegerField(null=True, blank=True)
-    stock_after = models.IntegerField(null=True, blank=True)
+    product_name = models.CharField(max_length=255, null=True)
+    quantity = models.IntegerField(null=True)
+    amount_paid = models.DecimalField(max_digits=10, decimal_places=2, null=True)
+    stock_before = models.IntegerField(null=True)
+    stock_after = models.IntegerField(null=True)
 
     class Meta:
         db_table = 'product_audit'
+
+
+
+class StockAudit(models.Model):
+    action_time = models.DateTimeField()
+    action_type = models.CharField(max_length=10)
+    stock_id = models.IntegerField()
+    product_id = models.IntegerField(null=True)
+    quantity_before = models.IntegerField(null=True)
+    quantity_after = models.IntegerField(null=True)
+    last_updated = models.DateTimeField(null=True)
+    product_name = models.CharField(max_length=255, null=True, blank=True)
+
+
+    class Meta:
+        db_table = 'stock_audit'
+
+
+class OrderAudit(models.Model):
+    action_time = models.DateTimeField()
+    action_type = models.CharField(max_length=10)
+    order_id = models.IntegerField()
+    customer_id = models.IntegerField(null=True)
+    total = models.DecimalField(max_digits=10, decimal_places=2, null=True)
+    date_ordered = models.DateTimeField(null=True)
+    orderitem_id = models.IntegerField(null=True)
+    product_id = models.IntegerField(null=True)
+    quantity = models.IntegerField(null=True)
+    amount_paid = models.DecimalField(max_digits=10, decimal_places=2, null=True)
+
+    class Meta:
+        db_table = 'order_audit'
+
+
+# AUTH USER RELATED
+
+from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
+from django.db import models
+
+class StoreUserManager(BaseUserManager):
+    def create_user(self, username, email, password=None, **extra_fields):
+        if not email:
+            raise ValueError('Email is required')
+        email = self.normalize_email(email)
+        user = self.model(username=username, email=email, **extra_fields)
+        user.set_password(password)
+        user.save(using=self._db)
+        return user
+
+    def create_superuser(self, username, email, password=None, **extra_fields):
+        extra_fields.setdefault('is_staff', True)
+        extra_fields.setdefault('is_superuser', True)
+        return self.create_user(username, email, password, **extra_fields)
+
+class StoreUser(AbstractBaseUser, PermissionsMixin):
+    username = models.CharField(max_length=150, unique=True)
+    email = models.EmailField(unique=True)
+    first_name = models.CharField(max_length=100, null=True, blank=True)
+    last_name = models.CharField(max_length=100, null=True, blank=True)
+    is_active = models.BooleanField(default=True)
+    is_staff = models.BooleanField(default=False)
+    date_joined = models.DateTimeField(default=timezone.now) 
+    # Add fields as needed to match your table
+    # e.g. first_name, last_name, etc.
+
+    USERNAME_FIELD = 'username'
+    REQUIRED_FIELDS = ['email']
+
+    objects = StoreUserManager()
+
+    def __str__(self):
+        return self.username
 
       

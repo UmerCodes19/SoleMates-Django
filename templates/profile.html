@@ -31,33 +31,37 @@
     <h3>Recent Purchases</h3>
     <form method="post" action="{% url 'add_to_cart' %}" id="cart-form">
         {% csrf_token %}
-        <div class="row row-pb-md" id="product-container">
-            {% for item in recent_purchases %}
-            <div class="col-md-3 col-sm-6 mb-4 text-center">
-                <div class="product-entry border product-card" data-product-id="{{ item.product_id }}">
-                    
-                    <!-- Info button linking to product detail -->
-                    <a href="{% url 'product_detail' %}?product_id={{ item.product_id }}" class="btn btn-info mb-2">Info</a>
-                    
-                    <div class="product-selector">
-                        <label for="product-{{ item.product_id }}">
-    <input type="checkbox" name="selected_products" value="{{ item.product_id }}" id="product-{{ item.product_id }}" style="display:none;">
-    <div class="prod-img">
-        <img src="/products/{{ item.product_image_url|cut:'products/' }}" class="img-fluid" alt="{{ item.product_name }}">
-    </div>
-    <div class="desc">
-        <h2>{{ item.product_name }}</h2>
-        <span class="price">${{ item.product_price }}</span>
-        <p>Purchased on {{ item.date_ordered|date:"M d, Y" }}</p>
-    </div>
-</label>
-                    </div>
+      <div class="row row-pb-md" id="product-container">
+    {% for item in recent_purchases %}
+    {% if item.product_id and item.product_name %}
+        <!-- your existing card code here -->
+         <div class="col-md-3 col-sm-6 mb-4 text-center">
+            <div class="product-entry border product-card" data-product-id="{{ item.product_id }}">
+                
+                <!-- Info button linking to product detail -->
+                <a href="{% url 'product_detail' %}?product_id={{ item.product_id }}" class="btn btn-info mb-2">Info</a>
+                
+                <div class="product-selector">
+                    <label for="product-{{ item.product_id }}">
+                        <input type="checkbox" name="selected_products" value="{{ item.product_id }}" id="product-{{ item.product_id }}" style="display:none;">
+                        <div class="prod-img">
+                            <img src="/products/{{ item.product_image_url|cut:'products/' }}" class="img-fluid" alt="{{ item.product_name }}">
+                        </div>
+                        <div class="desc">
+                            <h2>{{ item.product_name }}</h2>
+                            <span class="price">${{ item.product_price }}</span>
+                            <p>Purchased on {{ item.date_ordered|date:"M d, Y" }}</p>
+                        </div>
+                    </label>
                 </div>
             </div>
-            {% empty %}
-            <p>No best sellers available at the moment.</p>
-            {% endfor %}
         </div>
+    {% else %}
+        <!-- optionally skip rendering or print debug message -->
+    {% endif %}
+{% endfor %}
+
+
         
         <!-- Add to Cart Button (outside the for loop) -->
         <div class="row">

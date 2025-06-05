@@ -1,0 +1,104 @@
+/* admin.css for SoleMates */
+body, .module, .dashboard-module {
+    font-family: 'Poppins', sans-serif;
+    background-color: #fff0f5;  /* light pink background */
+    color: #333;
+}
+
+#header {
+    background: linear-gradient(90deg, #ff4d6d, #ff6b81); /* pink-red gradient */
+    color: white;
+    font-size: 1.4em;
+    font-weight: bold;
+}
+
+#header a {
+    color: white;
+    text-decoration: none;
+}
+
+#content h1, .module caption, .module h2 {
+    color: #ff4d6d;
+    font-weight: 600;
+}
+
+a {
+    color: #ff4d6d;
+}
+
+a:hover {
+    color: #ff6b81;
+}
+
+.button, input[type="submit"] {
+    background-color: #ff4d6d;
+    color: white;
+    border-radius: 8px;
+    padding: 6px 12px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.button:hover, input[type="submit"]:hover {
+    background-color: #ff6b81;
+}
+
+fieldset, .module {
+    border: 2px solid #ff4d6d;
+    border-radius: 12px;
+    padding: 10px;
+    background-color: #ffe6eb; /* subtle pink module backgrounds */
+}
+
+.dashboard-module h2 {
+    color: #ff4d6d;
+}
+
+.dashboard-module {
+    background-color: #ffe6eb;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.module table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.module table th, .module table td {
+    padding: 8px;
+    border-bottom: 1px solid #ddd;
+}
+
+.module table th {
+    background-color: #ff4d6d;
+    color: white;
+}
+
+/* Dashboard widgets grid */
+.dashboard {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin: 20px 0;
+}
+
+.widget {
+    background-color: #ffe6eb;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 0 8px rgba(255,77,109,0.3);
+    color: #ff4d6d;
+    font-family: 'Poppins', sans-serif;
+}
+
+.widget h3 {
+    margin-top: 0;
+    font-weight: 700;
+}
+
+.widget .number {
+    font-size: 2.5em;
+    font-weight: 900;
+}

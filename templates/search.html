@@ -5,12 +5,10 @@
 <div class="container">
     <h2>Search Results for "{{ query }}"</h2>
     {% if products %}
-        
-            {% for product in products %}
-            <form method="post" action="{% url 'add_to_cart' %}" id="cart-form">
+    <form method="post" action="{% url 'add_to_cart' %}" id="cart-form">
         {% csrf_token %}
         <div class="row row-pb-md" id="product-container">
-          
+            {% for product in products %}
             <div class="col-md-3 col-sm-6 mb-4 text-center">
                 <div class="product-entry border product-card" data-product-id="{{ product.id }}">
                     
@@ -19,26 +17,22 @@
                     
                     <div class="product-selector">
                         <label for="product-{{ product.id }}">
-    <input type="checkbox" name="selected_products" value="{{ product.id }}" id="product-{{ product.id }}" style="display:none;">
-    <div class="prod-img">
-        <img src="/products/{{ product.image|cut:'products/' }}" class="img-fluid" alt="{{ product.name }}">
-    </div>
-    <div class="desc">
-        <h2>{{ product.name }}</h2>
-        <span class="price">${{ product.price }}</span>
-    </div>
-</label>
+                            <input type="checkbox" name="selected_products" value="{{ product.id }}" id="product-{{ product.id }}" style="display:none;">
+                            <div class="prod-img">
+                                <img src="/products/{{ product.image|cut:'products/' }}" class="img-fluid" alt="{{ product.name }}">
+                            </div>
+                            <div class="desc">
+                                <h2>{{ product.name }}</h2>
+                                <span class="price">${{ product.price }}</span>
+                            </div>
+                        </label>
                     </div>
                 </div>
             </div>
-            {% empty %}
-           
-        </div>
-        
-        <!-- Add to Cart Button (outside the for loop) -->
-        
             {% endfor %}
         </div>
+
+        <!-- Add to Cart Button -->
         <div class="row">
             <div class="col-12 text-right">
                 <button type="submit" class="btn btn-primary" id="add-to-cart-btn">

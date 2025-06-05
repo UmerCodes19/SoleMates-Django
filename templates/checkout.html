@@ -152,13 +152,13 @@
 <ul>
     {% for item in cart_items %}
     <li>
-        <span>{{ item.quantity }} x {{ item.product.name }}</span>
+        <span>{{ item.quantity }} x {{ item.name }}</span>
         <span>${{ item.total_price }}</span> <!-- Add this line -->
     </li>
     {% endfor %}
 </ul>
 <li><span>Shipping</span> <span>$0.00</span></li>
-<li><span>Order Total</span> <span>${{ cart.total_price }}</span></li>
+<li><span>Order Total</span> <span>${{ total }}</span></li>
 
 									</ul>
 								</div>
@@ -205,6 +205,8 @@
 								
   <button type="submit" class="btn btn-primary">Place an order</button>
 </form>
+
+
 							</div>
 						</div>
 					</div>

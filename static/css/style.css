@@ -4,6 +4,7 @@
  * Copyright 2011-2018 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  */
+
 :root {
   --blue: #007bff;
   --indigo: #6610f2;
@@ -43,10 +44,11 @@
 html {
   font-family: sans-serif;
   line-height: 1.15;
-  -webkit-text-size-adjust: 100%;
-  -ms-text-size-adjust: 100%;
-  -ms-overflow-style: scrollbar;
-  -webkit-tap-highlight-color: transparent; }
+  text-size-adjust: 100%; /* Modern universal */
+  -ms-overflow-style: scrollbar; /* Optional fallback for IE */
+  -webkit-tap-highlight-color: transparent; /* Mobile tap highlight */
+}
+
 
 @-ms-viewport {
   width: device-width; }
@@ -226,8 +228,9 @@ button,
 html [type="button"],
 [type="reset"],
 [type="submit"] {
-  -webkit-appearance: button; }
-
+-webkit-appearance: button;
+appearance: button;
+}
 button::-moz-focus-inner,
 [type="button"]::-moz-focus-inner,
 [type="reset"]::-moz-focus-inner,
@@ -245,7 +248,9 @@ input[type="date"],
 input[type="time"],
 input[type="datetime-local"],
 input[type="month"] {
-  -webkit-appearance: listbox; }
+  -webkit-appearance: listbox;
+appearance: listbox;
+ }
 
 textarea {
   overflow: auto;
@@ -277,7 +282,9 @@ progress {
 
 [type="search"] {
   outline-offset: -2px;
-  -webkit-appearance: none; }
+ -webkit-appearance: none;
+appearance: none;
+ }
 
 [type="search"]::-webkit-search-cancel-button,
 [type="search"]::-webkit-search-decoration {
@@ -3191,6 +3198,51 @@ input[type="button"].btn-block {
   .nav-link.disabled {
     color: #6c757d; }
 
+.colorlib-logo img {
+  height: 300px; /* increased from 50 or 200 to 80 */
+  width: 300px;
+  max-height: 300px;
+  transition: transform 0.3s ease;
+  object-fit: contain;
+}
+
+
+/* NAVBAR LOGO IMAGE */
+.logo-img {
+  height: 200px;
+  width: auto;
+  max-height: 200px;
+  transition: transform 0.3s ease;
+  object-fit: contain;
+}
+
+/* Hover zoom effect */
+.logo-img:hover {
+  transform: scale(1.08);
+}
+
+/* Brand text beside logo */
+.brand-text {
+  font-size: 1.8rem;
+  font-family: 'Playfair Display', serif;
+  font-weight: bold;
+  color: #333;
+  transition: color 0.3s ease;
+}
+
+.brand-text:hover {
+  color: #e96f92; /* Example color from your palette */
+}
+
+
+
+.colorlib-logo img:hover {
+  transform: scale(1.08);
+}
+
+
+
+
 .nav-tabs {
   border-bottom: 1px solid #dee2e6; }
   .nav-tabs .nav-item {
@@ -4345,7 +4397,9 @@ button.close {
   padding: 0;
   background-color: transparent;
   border: 0;
-  -webkit-appearance: none; }
+ -webkit-appearance: none;
+appearance: none;
+ }
 
 .modal-open {
   overflow: hidden; }
@@ -7380,14 +7434,15 @@ h1, h2, h3, h4, h5,
     top: 0;
     right: -5px;
     padding: 0;
-    background: #88c8bc;
+    background: #b71d0d;
     border: 1px solid #88c8bc; }
     .colorlib-nav .top-menu .search-wrap .submit-search i {
       padding: 0; }
 
 .colorlib-nav .sale {
   padding: 14px 0;
-  background: #88c8bc; }
+  background: #b71d0d  ; 
+  }
   .colorlib-nav .sale h3 {
     margin-bottom: 0;
     font-family: "Montserrat", Arial, sans-serif;
@@ -7505,7 +7560,7 @@ h1, h2, h3, h4, h5,
         display: -moz-inline-stack;
         display: inline-block;
         zoom: 1;
-        *display: inline;
+        display: inline;
         -moz-transition: all 0.3s ease;
         -o-transition: all 0.3s ease;
         -webkit-transition: all 0.3s ease;
@@ -8389,12 +8444,12 @@ input[type="text"] {
     display: -moz-inline-stack;
     display: inline-block;
     zoom: 1;
-    *display: inline; }
+    display: inline; }
     .colorlib-social-icons li a {
       display: -moz-inline-stack;
       display: inline-block;
       zoom: 1;
-      *display: inline;
+      display: inline;
       color: #616161;
       padding-left: 10px;
       padding-right: 10px; }
@@ -8517,7 +8572,6 @@ input[type="text"] {
           position: absolute;
           right: 0px;
           font-family: 'icomoon';
-          speak: none;
           font-style: normal;
           font-weight: normal;
           font-variant: normal;
@@ -8844,3 +8898,94 @@ input[type="text"] {
 
 .js .animate-box {
   opacity: 0; }
+
+
+/* === START CUSTOM THEME STYLING === */
+
+/* === Custom Font === */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Poppins:wght@400;600&display=swap');
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #fffdf8;
+    color: #333;
+    transition: all 0.3s ease-in-out;
+}
+
+/* === Logo in Navbar === */
+.navbar-brand img {
+    height: 50px;
+    width: auto;
+    transition: transform 0.3s ease-in-out;
+}
+.navbar-brand img:hover {
+    transform: scale(1.1);
+}
+
+/* === Navigation Links === */
+.navbar-nav .nav-link {
+    font-weight: 600;
+    font-family: 'Poppins', sans-serif;
+    color: #212121 !important;
+    transition: color 0.3s ease-in-out;
+}
+.navbar-nav .nav-link:hover {
+    color: #d9230f !important;
+}
+
+/* === Buttons === */
+.btn {
+    background-color: #d9230f;
+    color: white;
+    font-weight: 500;
+    border: none;
+    border-radius: 30px;
+    padding: 10px 25px;
+    transition: background-color 0.3s ease-in-out, transform 0.2s ease-in-out;
+}
+.btn:hover {
+    background-color: #a41b0c;
+    transform: scale(1.05);
+}
+
+/* === Login/Register Card Styling === */
+.card {
+    border-radius: 15px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    animation: fadeInUp 0.6s ease-out;
+}
+.card-header {
+    background-color: #d9230f;
+    color: white;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+}
+
+/* === Animations === */
+@keyframes fadeInUp {
+    0% {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.fade-in {
+    animation: fadeIn 1s ease-in;
+}
+
+/* === END CUSTOM THEME STYLING === */

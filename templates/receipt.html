@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Order Receipt #{{ order.id }}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        @media print {
+            .no-print {
+                display: none;
+            }
+            body {
+                padding: 0;
+            }
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #333;
+            padding-bottom: 20px;
+        }
+        .store-name {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .receipt-title {
+            font-size: 24px;
+            margin: 20px 0;
+        }
+        .order-info {
+            margin-bottom: 30px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #f5f5f5;
+        }
+        .total-row {
+            font-weight: bold;
+            font-size: 18px;
+        }
+        .footer {
+            margin-top: 40px;
+            text-align: center;
+            font-size: 14px;
+            color: #666;
+        }
+    </style>
+</head>
+<body onload="window.print()">
+    <div class="header">
+        <div class="store-name">Your Shoe Store</div>
+        <div>123 Main Street, City</div>
+        <div>Phone: (123) 456-7890</div>
+    </div>
+
+    <h1 class="receipt-title">Order Receipt</h1>
+
+    <div class="order-info">
+        <p><strong>Order #:</strong> {{ order.id }}</p>
+        <p><strong>Date:</strong> {{ order.date_ordered|date:"F d, Y H:i" }}</p>
+        <p><strong>Customer:</strong> {{ order.customer.user.get_full_name }}</p>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in ordered_items %}
+            <tr>
+                <td>{{ item.product.name }}</td>
+                <td>${{ item.product.price|floatformat:2 }}</td>
+                <td>{{ item.quantity }}</td>
+                <td>${{ item.total_price|floatformat:2 }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+        <tfoot>
+            <tr class="total-row">
+                <td colspan="3" align="right">Total:</td>
+                <td>${{ total_amount|floatformat:2 }}</td>
+            </tr>
+        </tfoot>
+    </table>
+
+    <div class="footer">
+        <p>Thank you for your purchase!</p>
+        <p>Please keep this receipt for your records</p>
+        <div class="no-print">
+            <button onclick="window.print()" class="btn">Print Again</button>
+            <button onclick="window.close()" class="btn">Close Window</button>
+        </div>
+    </div>
+
+    <script>
+        // Close window after print if desired
+        window.onafterprint = function() {
+            // window.close();
+        };
+    </script>
+</body>
+</html>

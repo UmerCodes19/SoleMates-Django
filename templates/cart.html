@@ -61,49 +61,48 @@
 						</div>
 				
 						{% for item in items %}
-						<div class="product-cart d-flex" id="item-{{ item.id }}">
-							<div class="one-forth">
-								<div class="product-img" style="background-image: url('{{ item.product.image.url }}')"></div>
-								<div class="display-tc">
-									<h3>{{ item.product.name }}</h3>
-								</div>
-							</div>
-							<div class="one-eight text-center">
-								<div class="display-tc">
-									<span class="price">${{ item.product.price }}</span>
-								</div>
-							</div>
-							<div class="one-eight text-center">
-								<div class="display-tc">
-									<form method="post" action="{% url 'update_cart' %}" class="ajax-quantity-form">
-    {% csrf_token %}
-    <input type="hidden" name="item_id" value="{{ item.id }}">
+<div class="product-cart d-flex" id="item-{{ item.id }}">
+    <div class="one-forth">
+        <div class="product-img" style="background-image: url('{{ item.product_image_url}}')"></div>
+        <div class="display-tc">
+            <h3>{{ item.product_name }}</h3>
+        </div>
+    </div>
+    <div class="one-eight text-center">
+        <div class="display-tc">
+            <span class="price">${{ item.product_price }}</span>
+        </div>
+    </div>
+    <div class="one-eight text-center">
+        <div class="display-tc">
+            <form method="post" action="{% url 'update_cart' %}" class="ajax-quantity-form">
+                {% csrf_token %}
+                <input type="hidden" name="item_id" value="{{ item.id }}">
 
-    <input type="number"
-           name="quantity"
-           value="{{ item.quantity }}"
-           min="1"
-           max="{{ item.stock.quantity }}"
-           data-max="{{ item.stock.quantity }}"
-           class="form-control input-number text-center quantity-input">
-</form>
-
-
-								</div>
-							</div>
-							<div class="one-eight text-center">
-    <div class="display-tc item-total">
-        ${{ item.total_price }}
+                <input type="number"
+                       name="quantity"
+                       value="{{ item.quantity }}"
+                       min="1"
+                       max="{{ item.stock_quantity }}"
+                       data-max="{{ item.stock_quantity }}"
+                       class="form-control input-number text-center quantity-input">
+            </form>
+        </div>
+    </div>
+    <div class="one-eight text-center">
+        <div class="display-tc item-total">
+            ${{item.item_total}}
+        </div>
+    </div>
+    <div class="one-eight text-center">
+        <div class="display-tc">
+            <a href="{% url 'remove_from_cart' item.id %}" class="closed"></a>
+        </div>
     </div>
 </div>
+{% endfor %}
 
-							<div class="one-eight text-center">
-								<div class="display-tc">
-									<a href="{% url 'remove_from_cart' item.id %}" class="closed"></a>
-								</div>
-							</div>
-						</div>
-						{% endfor %}
+
 						{% else %}
 						<div class="text-center py-5">
 							<h3>Your cart is empty</h3>
@@ -160,56 +159,54 @@
 </div>
 
 				<div class="row">
-					<div class="col-sm-8 offset-sm-2 text-center colorlib-heading colorlib-heading-sm">
-						<h2>Related Products</h2>
-					</div>
+					
 				</div>
 				<div class="row">
-					<div class="col-md-3 col-lg-3 mb-4 text-center">
-						<div class="product-entry border">
-							<a href="#" class="prod-img">
-								<img src="images/item-1.jpg" class="img-fluid" alt="Free html5 bootstrap 4 template">
-							</a>
-							<div class="desc">
-								<h2><a href="#">Women's Boots Shoes Maca</a></h2>
-								<span class="price">$139.00</span>
-							</div>
-						</div>
-					</div>
-					<div class="col-md-3 col-lg-3 mb-4 text-center">
-						<div class="product-entry border">
-							<a href="#" class="prod-img">
-								<img src="images/item-2.jpg" class="img-fluid" alt="Free html5 bootstrap 4 template">
-							</a>
-							<div class="desc">
-								<h2><a href="#">Women's Minam Meaghan</a></h2>
-								<span class="price">$139.00</span>
-							</div>
-						</div>
-					</div>
-					<div class="col-md-3 col-lg-3 mb-4 text-center">
-						<div class="product-entry border">
-							<a href="#" class="prod-img">
-								<img src="images/item-3.jpg" class="img-fluid" alt="Free html5 bootstrap 4 template">
-							</a>
-							<div class="desc">
-								<h2><a href="#">Men's Taja Commissioner</a></h2>
-								<span class="price">$139.00</span>
-							</div>
-						</div>
-					</div>
-					<div class="col-md-3 col-lg-3 mb-4 text-center">
-						<div class="product-entry border">
-							<a href="#" class="prod-img">
-								<img src="images/item-4.jpg" class="img-fluid" alt="Free html5 bootstrap 4 template">
-							</a>
-							<div class="desc">
-								<h2><a href="#">Russ Men's Sneakers</a></h2>
-								<span class="price">$139.00</span>
-							</div>
-						</div>
-					</div>
-				</div>
+    <div class="col-sm-8 offset-sm-2 text-center colorlib-heading colorlib-heading-sm">
+        <h2>Related Products</h2>
+    </div>
+</div>
+<form method="post" action="{% url 'add_to_cart' %}" id="cart-form">
+    {% csrf_token %}
+    <div class="row row-pb-md" id="product-container">
+        {% for related in related_products %}
+        <div class="col-md-3 col-lg-3 mb-4 text-center">
+            <div class="product-entry border product-card" data-product-id="{{ related.id }}">
+                <a href="{% url 'product_detail' %}?product_id={{ related.id }}" class="prod-img">
+                    <img src="{{ related.image.url }}" class="img-fluid" alt="{{ related.name }}">
+                </a>
+                <div class="desc">
+                    <h2><a href="{% url 'product_detail' %}?product_id={{ related.id }}">{{ related.name }}</a></h2>
+                    <span class="price">${{ related.price }}</span>
+                    <div class="star-rating">
+                        {% with ''|center:5 as range %}
+                        {% for _ in range %}
+                            {% if forloop.counter <= related.details.average_rating|default:0 %}
+                                <i class="icon-star-full"></i>
+                            {% else %}
+                                <i class="icon-star-empty"></i>
+                            {% endif %}
+                        {% endfor %}
+                        {% endwith %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12 text-center">
+            <p>No related products found.</p>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="row">
+        <div class="col-12 text-right">
+            <button type="submit" class="btn btn-primary" id="add-to-cart-btn">
+                <i class="icon-shopping-cart"></i> Add to Cart (<span id="selected-count">0</span>)
+            </button>
+        </div>
+    </div>
+</form>
+
 			</div>
 		</div>
 

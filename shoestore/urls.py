@@ -19,14 +19,19 @@ from django.contrib import admin
 from django.conf import settings
 from django.contrib.auth import views as auth_views
 from django.conf.urls.static import static
-from django.urls import path
+from django.urls import include, path
 from django.views.generic.base import RedirectView
 from store import views
 from django.urls import re_path
 from django.views.static import serve
+
 import os
 
+
+
 urlpatterns = [
+    
+
     path('admin/', admin.site.urls),
     path('', views.index, name='home'),
     path('index/', views.index, name='index'),
@@ -62,6 +67,9 @@ path('cart/update/', views.update_cart, name='update_cart'),
     path('checkout.html', views.checkout, name='checkout'),
     path('order-complete/', views.order_complete, name='order_complete'),
     path('order-complete.html', views.order_complete, name='order_complete'),
+    path('order-complete/<int:order_id>/', views.order_complete, name='order_complete'),
+path('order-receipt/<int:order_id>/', views.order_receipt, name='order_receipt'),
+    
    # Remove duplicate URLs and keep this one:
    path('product-detail.html', views.product_detail, name='product_detail'),
 

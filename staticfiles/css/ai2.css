@@ -1,0 +1,125 @@
+/* Add to your CSS file */
+.active-filter {
+    font-weight: bold;
+    color: #82ae46 !important;
+}
+
+#filter-form {
+    padding: 10px;
+}
+
+#filter-form ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+#filter-form li {
+    margin-bottom: 5px;
+}
+
+#filter-form input[type="radio"] {
+    margin-right: 8px;
+}
+
+
+
+/* Pagination Styles */
+.block-27 ul {
+    padding: 0;
+    margin: 0;
+}
+.block-27 li {
+    display: inline-block;
+    margin: 0 2px;
+}
+.block-27 li a,
+.block-27 li span {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    border-radius: 50%;
+    border: 1px solid #82ae46;
+    color: #82ae46;
+}
+.block-27 li.active span {
+    background: #82ae46;
+    color: #fff;
+    border-color: #82ae46;
+}
+.block-27 li a:hover {
+    background: #82ae46;
+    color: #fff;
+}
+
+
+/* Disabled button styling */
+#add-to-cart-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    
+}
+.menu-link {
+  padding: 10px 20px;
+  font-weight: 600;
+  color: #555;
+  transition: color 0.3s ease;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.menu-link.active {
+  color: #007bff; /* Bootstrap primary color */
+  border-bottom: 2px solid #007bff;
+}
+
+.menu-link:hover:not(.active) {
+  color: #0056b3;
+}
+
+/* Product section base */
+.product-section {
+  position: relative;
+  animation-fill-mode: forwards;
+}
+
+/* Fade out + scale down */
+@keyframes fadeOutScale {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+}
+
+/* Fade in + scale up */
+@keyframes fadeInScale {
+  0% {
+    opacity: 0;
+    transform: scale(1.05);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Apply fadeOutScale animation */
+.animated.fadeOut {
+  animation-name: fadeOutScale;
+  animation-duration: 300ms;
+  animation-timing-function: ease-in-out;
+}
+
+/* Apply fadeInScale animation */
+.animated.fadeIn {
+  animation-name: fadeInScale;
+  animation-duration: 300ms;
+  animation-timing-function: ease-in-out;
+}
+

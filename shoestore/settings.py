@@ -31,6 +31,8 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    
+    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -42,7 +44,41 @@ INSTALLED_APPS = [
    
 ]
 
+JAZZMIN_SETTINGS = {
+    "site_title": "SoleMates Admin",
+    "site_header": "SoleMates Admin",
+    "site_brand": "SoleMates",
+    "welcome_sign": "Welcome to SoleMates Administration",
+    "show_sidebar": True,
+    "navigation_expanded": True,
+    "hide_apps": [],
+    "hide_models": [],
+    "search_model": "store.StoreUser",
+
+    # Set dark mode toggle on/off here
+    "dark_mode_theme": True,
+     
+}
+
+
+
+JAZZMIN_UI_TWEAKS = {
+    "theme": "darkly",   # 'dark' for dark mode, or 'light' for light mode
+
+    # Primary color palette customization
+    "navbar": "bg-gradient-danger",  # red-ish background for navbar, bootstrap class
+    "accent": "pink",  # accent color for buttons, links, etc.
+    "sidebar": "bg-dark",  # dark sidebar background
+    "sidebar_nav_active": "bg-pink text-white",  # active menu item styles
+    "brand_text_color": "text-pink",  # brand text color
+}
+
+
 # settings.py
+# settings.py
+
+
+
 
 
 MIDDLEWARE = [
@@ -82,10 +118,10 @@ WSGI_APPLICATION = 'shoestore.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'mssql',
-        'NAME': 'SoleMates1',
-        'USER': 'DjangoAdmin',
-        'PASSWORD': 'admin123',
-        'HOST': 'DESKTOP-P6HK8QT\SQLEXPRESS01',
+        'NAME': 'SoleMatesDB',
+        'USER': 'django_user',
+        'PASSWORD': '123',
+        'HOST': 'DESKTOP-P6HK8QT\\SQLEXPRESS01',
         'PORT': '',
         'OPTIONS': {
             'driver': 'ODBC Driver 17 for SQL Server',
@@ -112,7 +148,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-AUTH_USER_MODEL = 'store.User' 
+AUTH_USER_MODEL = 'store.StoreUser'
 
 
 # Internationalization
@@ -135,6 +171,7 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 
 MEDIA_URL = '/'  # Serve from root

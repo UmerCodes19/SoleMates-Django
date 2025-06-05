@@ -1,6 +1,9 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import Product, Customer, Order, OrderItem, Stock, Cart, CartItem, User, ProductDetails,BillingDetails
+from .models import Product, Customer, Order, OrderItem, Stock, Cart, CartItem, User, ProductDetails,BillingDetails,StoreUser
+
+
+
 
 class ProductDetailsInline(admin.StackedInline):
     model = ProductDetails
@@ -54,6 +57,7 @@ admin.site.register(Customer)
 admin.site.register(Order)
 admin.site.register(OrderItem)
 admin.site.register(Stock)
+admin.site.register(StoreUser)
 admin.site.register(Cart)
 admin.site.register(CartItem)
 admin.site.register(BillingDetails)

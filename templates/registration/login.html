@@ -12,6 +12,19 @@
                         <span class="icon-user"></span>
                     </div>
                     <h3 class="text-center mb-4">Sign In</h3>
+                    
+                    {% if error %}
+ <script>
+    window.addEventListener('DOMContentLoaded', () => {
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: "{{ error|escapejs }}",
+        });
+    });
+</script>
+{% endif %}
+                    
                     <form method="post" class="login-form">
                         {% csrf_token %}
                         <div class="form-group">

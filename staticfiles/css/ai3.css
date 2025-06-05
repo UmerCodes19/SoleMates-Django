@@ -1,0 +1,102 @@
+/* Add to your CSS file */
+.active-filter {
+    font-weight: bold;
+    color: #82ae46 !important;
+}
+
+#filter-form {
+    padding: 10px;
+}
+
+#filter-form ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+#filter-form li {
+    margin-bottom: 5px;
+}
+
+#filter-form input[type="radio"] {
+    margin-right: 8px;
+}
+
+
+/* Add to your CSS file */
+.product-entry {
+    padding: 15px;
+    margin-bottom: 20px;
+    transition: all 0.3s ease;
+}
+
+.product-entry:hover {
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.product-img {
+    height: 200px;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    margin-bottom: 15px;
+}
+
+.tag {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+}
+
+.tag .sale {
+    background: #82ae46;
+    color: white;
+    padding: 2px 8px;
+    font-size: 12px;
+}
+
+.price {
+    font-weight: bold;
+    color: #82ae46;
+    font-size: 18px;
+}
+
+.filter-section {
+    margin-bottom: 15px;
+}
+
+.sidebar {
+    position: sticky;
+    top: 20px;
+}
+
+
+/* Pagination Styles */
+.block-27 ul {
+    padding: 0;
+    margin: 0;
+}
+.block-27 li {
+    display: inline-block;
+    margin: 0 2px;
+}
+.block-27 li a,
+.block-27 li span {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    border-radius: 50%;
+    border: 1px solid #82ae46;
+    color: #82ae46;
+}
+.block-27 li.active span {
+    background: #82ae46;
+    color: #fff;
+    border-color: #82ae46;
+}
+.block-27 li a:hover {
+    background: #82ae46;
+    color: #fff;
+}
+

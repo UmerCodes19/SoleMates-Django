@@ -1,0 +1,47 @@
+/* Product selection styling */
+.product-selector {
+    display: block;
+    position: relative;
+    cursor: pointer;
+}
+
+.product-checkbox {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+.product-selector:hover .product-checkbox ~ .product-entry {
+    border-color: #28a745;
+}
+
+.product-checkbox:checked ~ .product-entry {
+    border: 2px solid #28a745;
+    box-shadow: 0 0 10px rgba(40, 167, 69, 0.5);
+}
+
+/* Login/Signup styling */
+.login-wrap {
+    background: #fff;
+    border-radius: 5px;
+    box-shadow: 0 5px 10px rgba(0,0,0,.1);
+    padding: 30px;
+}
+
+.login-wrap .icon {
+    width: 80px;
+    height: 80px;
+    background: #28a745;
+    border-radius: 50%;
+    font-size: 30px;
+    margin: 0 auto;
+    margin-bottom: 10px;
+    color: white;
+}
+
+.signup-form .form-control {
+    height: 50px;
+    border-radius: 4px;
+}
